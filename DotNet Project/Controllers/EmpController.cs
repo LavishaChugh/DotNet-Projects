@@ -290,18 +290,15 @@ namespace DotNet_Project.Controllers
 
             await connection.OpenAsync();
 
-            // Delete the employee using the stored procedure
             using (SqlCommand command = new SqlCommand("DeleteEmp", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
 
-                // Add parameter for the stored procedure
                 command.Parameters.Add("@Id", SqlDbType.Int).Value = id;
 
-                await command.ExecuteNonQueryAsync();
+                await command.ExecuteNonQueryAsync();     //do not return data
             }
 
-            // Fetch the updated list of all employees after deletion
             List<Emp> employees = new List<Emp>();
 
             using (SqlCommand selectCommand = new SqlCommand("GetAll", connection))
