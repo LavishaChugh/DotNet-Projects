@@ -1,4 +1,6 @@
 ﻿
+using Serilog;
+
 namespace DotNet_Project.Services.WeatherForcast
 {
     public class WeatherForcastService : IWeatherForcastService
@@ -11,13 +13,17 @@ namespace DotNet_Project.Services.WeatherForcast
 
         public IEnumerable<WeatherForecast> Get()
         {
-            return Enumerable.Range(1, 15).Select(index => new WeatherForecast
+            var result =  Enumerable.Range(1, 15).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+
+            Log.Information("Weather Forcast => {@result}", result);
+
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
 using DotNet_Project.Services.WeatherForcast;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IWeatherForcastService, WeatherForcastService>();
+builder.Host.UseSerilog();
+
+Log.Logger = new LoggerConfiguration()
+    //.MinimumLevel.Information()
+    //.WriteTo.Console()       // writes to console can also be written to file.
+    //.WriteTo.File("logger-.txt", rollingInterval: RollingInterval.Day)
+    //.CreateLogger();
+    .ReadFrom.Configuration(builder.Configuration).CreateLogger();  
+
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -18,6 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

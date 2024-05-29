@@ -1,4 +1,4 @@
-﻿using Dapper;
+﻿ using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -126,7 +126,7 @@ namespace DotNet_Project.Controllers
             }
 
             connection.Close();
-
+              
             return Ok(employees);
         }
 
